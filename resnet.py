@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 import torchvision
 from torch.utils.tensorboard import SummaryWriter
 import h5py
@@ -87,9 +86,9 @@ class ResNet(nn.Module):
         return torch.sigmoid(out)
 
 
-def IoU(outputs, targets, smooth=1e-6):
-    intersection = ((outputs > 0) & (targets > 0)).float().sum(1)
-    union = ((outputs > 0) | (targets > 0)).float().sum(1)
+def IoU(outputs, targets, smooth=1e-6, thres=0):
+    intersection = ((outputs > thres) & (targets > 0)).float().sum(1)
+    union = ((outputs > thres) | (targets > 0)).float().sum(1)
     iou = (intersection + smooth) / (union + smooth)
     return iou
 
@@ -106,6 +105,7 @@ class WildFireDataset(torch.utils.data.Dataset):
         return self.x.shape[0]
 
 
+# one model for prediction 0 hour, one for +12
 resmodel1 = ResNet(ResidualBlock, [2, 2, 2]).to(device)
 resmodel2 = ResNet(ResidualBlock, [2, 2, 2]).to(device)
 
@@ -113,6 +113,7 @@ criterion = nn.MSELoss()
 optimizer1 = torch.optim.Adam(resmodel1.parameters(), lr=0.001)
 optimizer2 = torch.optim.Adam(resmodel2.parameters(), lr=0.001)
 
+# load train data
 DATASET_PATH = 'data/uci_ml_hackathon_fire_dataset_2012-05-09_2013-01-01_30k_train_v2.hdf5'
 
 with h5py.File(DATASET_PATH, 'r') as f:
@@ -129,7 +130,7 @@ ytemp[:, :900] = y[:, 0, ...].reshape((30000, 900))
 ytemp[:, 900:] = y[:, 1, ...].reshape((30000, 900))
 y = ytemp
 
-
+# train validation splot
 split = np.arange(30000)
 np.random.shuffle(split)
 
