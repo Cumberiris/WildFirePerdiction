@@ -11,4 +11,4 @@ The data is at the
 ResNet with three blocks. Last layer of Sigmoid and output 900.
 
 ## Evaluation
-![](./fig/12loss.png)
+images are in fig subfolder
