@@ -12,3 +12,6 @@ ResNet with three blocks. Last layer of Sigmoid and output 900.
 
 ## Evaluation
 images are in fig subfolder
+
+## Attribution
+Thanks to Prof. Xiaohui Xie's [source code](https://github.com/xhxuciedu/CS284A) of ResNet along with Residual blocks.
