@@ -1,0 +1,2 @@
+Thanks to Prof. Xiaohui Xie's source code of ResNet along with Residual blocks.
+url: https://github.com/xhxuciedu/CS284A

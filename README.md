@@ -8,5 +8,7 @@ The data is at the
 [website](https://uci-ml-repo.github.io/events/hackathon20/datasets#wildfires)
 
 ## Architecture
+ResNet with three blocks. Last layer of Sigmoid and output 900.
 
 ## Evaluation
+![](./fig/12loss.png)
